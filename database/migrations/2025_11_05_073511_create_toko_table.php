@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('toko_controllers', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_toko');
+            $table->text('deskripsi_toko');
+            $table->string('gambar');
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->string('kontak_toko');
+            $table->string('alamat_toko');
             $table->timestamps();
         });
     }

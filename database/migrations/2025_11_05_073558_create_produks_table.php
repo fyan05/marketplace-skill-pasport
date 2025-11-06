@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('produks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_kategori')->references('id')->on('kategoris');
+            $table->foreignId('id_toko')->references('id')->on('toko_controllers');
+            $table->string('nama_produk');
+            $table->text('deskripsi');
+            $table->integer('harga');
+            $table->integer('stok');
+            $table->date('tanggal_upload');
             $table->timestamps();
         });
     }

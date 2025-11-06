@@ -18,9 +18,15 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'kontak',
+        'username',
         'password',
+        'role',
     ];
+    public function toko()
+    {
+        return $this->hasOne(TokoController::class,'user_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

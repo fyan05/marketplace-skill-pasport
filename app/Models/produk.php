@@ -7,4 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class produk extends Model
 {
     //
+    protected $guarded = [];
+    public function toko()
+    {
+        return $this->belongsTo(TokoController::class,'id_toko');
+    }
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class,'id_kategori');
+    }
 }
