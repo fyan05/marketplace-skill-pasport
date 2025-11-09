@@ -1,92 +1,171 @@
 @extends('admin.template')
-@section('content')
-<div class="container-fluid py-4">
-    <h4 class="fw-bold mb-4">Dashboard Koperasi Sekolah</h4>
 
+@section('content')
+<div class="container py-4">
+
+    {{-- 🔷 STATISTIK ATAS --}}
     <div class="row g-3 mb-4">
         <div class="col-md-3">
-            <div class="card text-center shadow-sm border-0 bg-success text-white">
+            <div class="card text-center shadow-sm border-0">
                 <div class="card-body">
-                    <h6>Total Produk</h6>
-                    <h3>{{ $totalProduk }}</h3>
+                    <i class="fa-solid fa-utensils"></i>
+                    <h6 class="text-muted mb-1">Total Produk</h6>
+                    <h3 class="fw-bold text-success">{{ $totalProduk }}</h3>
                 </div>
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="card text-center shadow-sm border-0 bg-primary text-white">
+            <div class="card text-center shadow-sm border-0">
                 <div class="card-body">
-                    <h6>Total Kategori</h6>
-                    <h3>{{ $totalKategori }}</h3>
+                    <i class="fa fa-tags"></i>
+                    <h6 class="text-muted mb-1">Total Kategori</h6>
+                    <h3 class="fw-bold text-primary">{{ $totalKategori }}</h3>
                 </div>
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="card text-center shadow-sm border-0 bg-warning text-dark">
+            <div class="card text-center shadow-sm border-0">
                 <div class="card-body">
-                    <h6>Total Toko</h6>
-                    <h3>{{ $totalToko }}</h3>
+                    <i class="fa fa-users"></i>
+                    <h6 class="text-muted mb-1">Total User</h6>
+                    <h3 class="fw-bold text-warning">{{ $totalUser }}</h3>
                 </div>
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="card text-center shadow-sm border-0 bg-danger text-white">
+            <div class="card text-center shadow-sm border-0">
                 <div class="card-body">
-                    <h6>Total User</h6>
-                    <h3>{{ $totalUser }}</h3>
+                    <i class="fa fa-store"></i>
+                    <h6 class="text-muted mb-1">Total Toko</h6>
+                    <h3 class="fw-bold text-danger">{{ $totalToko }}</h3>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- GRAFIK & PRODUK TERBARU --}}
-    <div class="row g-3">
+    {{-- 🔶 GRAFIK & PRODUK TERBARU --}}
+    <div class="row g-4 mb-4">
         <div class="col-lg-8">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h6 class="fw-semibold mb-3">Jumlah Produk per Kategori</h6>
-                    <canvas id="produkKategoriChart" height="100"></canvas>
+                    <h6 class="fw-semibold mb-3">Distribusi Produk per Kategori</h6>
+                    <canvas id="produkKategoriChart" height="60" style="max-height:250px;"></canvas>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-4">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="fw-semibold mb-3">Produk Terbaru</h6>
-                    <ul class="list-group list-group-flush">
-                        @foreach ($produkTerbaru as $p)
+                    <ul class="list-group list-group-flush small">
+                        @forelse ($produkTerbaru as $p)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>{{ $p->nama_produk }}</span>
-                                {{ \Carbon\Carbon::parse($p->tanggal_upload)->format('d M Y') }}
+                                <small class="text-muted">{{ \Carbon\Carbon::parse($p->tanggal_upload)->format('d M Y') }}</small>
                             </li>
-                        @endforeach
+                        @empty
+                            <li class="list-group-item text-muted">Belum ada produk</li>
+                        @endforelse
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
+    {{-- 🔷 PRODUK STOK TERTINGGI & TERENDAH --}}
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="fw-semibold mb-3">Produk Stok Tertinggi</h6>
+                    @if ($produkStokTinggi)
+                        <p class="mb-1 fw-bold">{{ $produkStokTinggi->nama_produk }}</p>
+                        <p class="text-success">Stok: {{ $produkStokTinggi->stok }}</p>
+                    @else
+                        <p class="text-muted">Tidak ada data.</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="fw-semibold mb-3">Produk Stok Terendah</h6>
+                    @if ($produkStokRendah)
+                        <p class="mb-1 fw-bold">{{ $produkStokRendah->nama_produk }}</p>
+                        <p class="text-danger">Stok: {{ $produkStokRendah->stok }}</p>
+                    @else
+                        <p class="text-muted">Tidak ada data.</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- 🔴 DAFTAR PRODUK STOK MENIPIS --}}
+    <div class="card shadow-sm border-0 mb-5">
+        <div class="card-body">
+            <h6 class="fw-semibold mb-3">Produk dengan Stok Menipis (≤ 5)</h6>
+            @if ($produkStokRendahList->isEmpty())
+                <p class="text-muted">Semua produk memiliki stok aman.</p>
+            @else
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Produk</th>
+                                <th>Stok</th>
+                                <th>Kategori</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($produkStokRendahList as $index => $p)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $p->nama_produk }}</td>
+                                    <td><span class="badge bg-danger">{{ $p->stok }}</span></td>
+                                    <td>{{ $p->kategori->nama_kategori ?? '-' }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        </div>
+    </div>
+
 </div>
 
-{{-- SCRIPT CHART.JS --}}
+{{-- 🟣 SCRIPT CHART.JS --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('produkKategoriChart');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: {!! json_encode($namaKategori) !!},
-            datasets: [{
-                label: 'Jumlah Produk',
-                data: {!! json_encode($jumlahProdukPerKategori) !!},
-                backgroundColor: 'rgba(46, 125, 50, 0.8)',
-                borderRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: { y: { beginAtZero: true } },
-            plugins: { legend: { display: false } }
+const ctx = document.getElementById('produkKategoriChart');
+new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: {!! json_encode($namaKategori) !!},
+        datasets: [{
+            data: {!! json_encode($jumlahProdukPerKategori) !!},
+            backgroundColor: [
+                '#4CAF50', '#2196F3', '#FFC107', '#FF5722', '#9C27B0',
+                '#00BCD4', '#8BC34A', '#FF9800', '#E91E63', '#3F51B5'
+            ],
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'bottom' },
+            title: { display: false },
         }
-    });
+    }
+});
 </script>
 @endsection
