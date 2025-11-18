@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('toko_controllers', function (Blueprint $table) {
+        Schema::create('tokos', function (Blueprint $table) {
             $table->id();
             $table->string('nama_toko');
             $table->text('deskripsi_toko');
-            $table->string('gambar');
+            $table->string('gambar')->nullable();
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('kontak_toko');
             $table->string('alamat_toko');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('toko_controllers');
+        Schema::dropIfExists('tokos');
     }
 };

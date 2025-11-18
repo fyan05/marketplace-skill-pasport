@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TokoController extends Model
+class toko extends Model
 {
     //
     protected $guarded = [];
@@ -17,4 +17,5 @@ class TokoController extends Model
     {
         return $this->hasMany(produk::class,'id_toko');
     }
+
 }

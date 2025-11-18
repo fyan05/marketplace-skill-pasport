@@ -3,9 +3,8 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\TokoControllerController;
+use App\Http\Controllers\TokoController;
 use App\Http\Controllers\UserController;
-use App\Models\TokoController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -35,11 +34,10 @@ Route::put('/admin/kategori/update/{id}',[KategoriController::class,'update'])->
 Route::delete('/admin/kategori/delete/{id}',[KategoriController::class,'destroy'])->name('admin.kategori-delete');
 
 #toko
-Route::get('/admin/toko',[TokoControllerController::class,'index'])->name('admin.toko');
-Route::post('/admin/toko/store',[TokoControllerController::class,'store'])->name('admin.toko-store');
-Route::put('/admin/toko/update/{id}',[TokoControllerController::class,'store'])->name('admin.toko-update');
-Route::delete('/admin/toko/{id}',[TokoControllerController::class,'store'])->name('admin.toko-delete');
-
+Route::get('/admin/toko',[TokoController::class,'index'])->name('admin.toko');
+Route::post('/admin/toko/store',[TokoController::class,'store'])->name('admin.toko-store');
+Route::put('/admin/toko/update/{id}',[TokoController::class,'update'])->name('admin.toko-memek');
+Route::get('/admin/toko/delete/{id}',[TokoController::class,'destroy'])->name('admin.toko-delete');
 #user
 
 

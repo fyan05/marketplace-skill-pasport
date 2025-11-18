@@ -10,7 +10,7 @@ class produk extends Model
     protected $guarded = [];
     public function toko()
     {
-        return $this->belongsTo(TokoController::class,'id_toko');
+        return $this->belongsTo(Toko::class,'id_toko');
     }
     public function kategori()
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use App\Models\Kategori;
+use App\Models\Toko;
 use App\Models\User;
 use App\Models\TokoController; // kalau ini model toko kamu
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class AdminController extends Controller
         $totalProduk = Produk::count();
         $totalKategori = Kategori::count();
         $totalUser = User::count();
-        $totalToko = TokoController::count();
+        $totalToko = Toko::count();
 
         // 🟡 DATA GRAFIK: Ambil kategori dan hitung jumlah produk per kategori
         $kategori = Kategori::withCount('produk')->get();

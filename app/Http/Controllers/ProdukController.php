@@ -6,6 +6,7 @@ use App\Models\gambar_produk;
 use App\Models\Produk;
 use App\Models\Kategori;
 use App\Models\GambarProduk;
+use App\Models\Toko;
 use App\Models\TokoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +18,7 @@ class ProdukController extends Controller
     {
         $produks = Produk::with(['kategori', 'gambarProduks'])->orderBy('id', 'DESC')->get();
         $kategori = Kategori::all();
-        $toko =TokoController::all();
+        $toko =Toko::all();
         return view('admin.produk', compact('produks', 'kategori', 'toko'));
     }
 

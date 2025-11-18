@@ -182,7 +182,7 @@
                 <input type="text" placeholder="Search for...">
             </div>
             <div class="user-info">
-                <span class="text-muted small">Admin</span>
+                <span class="text-muted small"></span>
                 <i class="fa-solid fa-circle-user"></i>
             </div>
         </nav>

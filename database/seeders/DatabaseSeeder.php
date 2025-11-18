@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\gambar_produk;
 use App\Models\Kategori;
 use App\Models\produk;
+use App\Models\Toko;
 use App\Models\TokoController;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'password' => bcrypt('123'),
         ]);
-        TokoController::create([
+        Toko::create([
             'nama_toko' => 'Toko Contoh',
             'deskripsi_toko' => 'Ini adalah deskripsi contoh toko.',
             'alamat_toko' => 'Jl. Contoh No. 123',
