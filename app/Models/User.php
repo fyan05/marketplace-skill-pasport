@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Http\Controllers\TokoController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -25,7 +27,7 @@ class User extends Authenticatable
     ];
     public function toko()
     {
-        return $this->hasOne(TokoController::class,'user_id');
+        return $this->hasOne(Toko::class,'user_id');
     }
 
     /**

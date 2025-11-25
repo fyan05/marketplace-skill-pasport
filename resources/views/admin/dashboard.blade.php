@@ -5,8 +5,8 @@
 
     {{-- 🔷 STATISTIK ATAS --}}
     <div class="row g-3 mb-4">
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm border-0">
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <i class="fa-solid fa-utensils"></i>
                     <h6 class="text-muted mb-1">Total Produk</h6>
@@ -15,8 +15,8 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm border-0">
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <i class="fa fa-tags"></i>
                     <h6 class="text-muted mb-1">Total Kategori</h6>
@@ -25,8 +25,8 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm border-0">
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <i class="fa fa-users"></i>
                     <h6 class="text-muted mb-1">Total User</h6>
@@ -35,8 +35,8 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm border-0">
+        <div class="col-6 col-md-3">
+            <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <i class="fa fa-store"></i>
                     <h6 class="text-muted mb-1">Total Toko</h6>
@@ -48,22 +48,24 @@
 
     {{-- 🔶 GRAFIK & PRODUK TERBARU --}}
     <div class="row g-4 mb-4">
-        <div class="col-lg-8">
+        <div class="col-12 col-lg-8">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="fw-semibold mb-3">Distribusi Produk per Kategori</h6>
-                    <canvas id="produkKategoriChart" height="60" style="max-height:250px;"></canvas>
+                    <div class="w-100" style="overflow-x:auto;">
+                        <canvas id="produkKategoriChart" height="60" style="max-height:250px;min-width:200px;"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-12 col-lg-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h6 class="fw-semibold mb-3">Produk Terbaru</h6>
                     <ul class="list-group list-group-flush small">
                         @forelse ($produkTerbaru as $p)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <span>{{ $p->nama_produk }}</span>
                                 <small class="text-muted">{{ \Carbon\Carbon::parse($p->tanggal_upload)->format('d M Y') }}</small>
                             </li>
@@ -78,7 +80,7 @@
 
     {{-- 🔷 PRODUK STOK TERTINGGI & TERENDAH --}}
     <div class="row g-4 mb-4">
-        <div class="col-lg-6">
+        <div class="col-12 col-lg-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <h6 class="fw-semibold mb-3">Produk Stok Tertinggi</h6>
@@ -92,7 +94,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-12 col-lg-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <h6 class="fw-semibold mb-3">Produk Stok Terendah</h6>
@@ -168,4 +170,14 @@ new Chart(ctx, {
     }
 });
 </script>
+<style>
+@media (max-width: 767.98px) {
+    .card-body h3 {
+        font-size: 1.3rem;
+    }
+    .table-responsive {
+        font-size: 0.95rem;
+    }
+}
+</style>
 @endsection

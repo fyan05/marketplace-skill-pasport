@@ -10,85 +10,89 @@
     </button>
 
     <!-- TABEL KATEGORI -->
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>No</th>
-                <th>Nama Kategori</th>
-                <th>Dibuat</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($kategoris as $index => $k)
-            <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $k->nama_kategori }}</td>
-                <td>{{ $k->created_at->format('d M Y') }}</td>
-                <td>
-                    <!-- Tombol Edit -->
-                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#editKategoriModal{{ $k->id }}">
-                        <i class="fa fa-edit"></i>
-                    </button>
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width:5%;">No</th>
+                    <th>Nama Kategori</th>
+                    <th style="width:20%;">Dibuat</th>
+                    <th style="width:20%;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($kategoris as $index => $k)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $k->nama_kategori }}</td>
+                    <td>{{ $k->created_at->format('d M Y') }}</td>
+                    <td>
+                        <div class="d-flex flex-wrap gap-2">
+                            <!-- Tombol Edit -->
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#editKategoriModal{{ $k->id }}">
+                                <i class="fa fa-edit"></i>
+                            </button>
 
-                    <!-- Tombol Hapus -->
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#deleteKategoriModal{{ $k->id }}">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-
-            <!-- 🟡 Modal Edit -->
-            <div class="modal fade" id="editKategoriModal{{ $k->id }}" tabindex="-1">
-                <div class="modal-dialog">
-                    <form action="{{ route('admin.kategori-update', $k->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Edit Kategori</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                <input type="text" name="nama_kategori" class="form-control"
-                                    value="{{ $k->nama_kategori }}" required>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                <button class="btn btn-primary" type="submit">Simpan</button>
-                            </div>
+                            <!-- Tombol Hapus -->
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#deleteKategoriModal{{ $k->id }}">
+                                <i class="fa fa-trash"></i>
+                            </button>
                         </div>
-                    </form>
-                </div>
-            </div>
+                    </td>
+                </tr>
 
-            <!-- 🔴 Modal Hapus -->
-            <div class="modal fade" id="deleteKategoriModal{{ $k->id }}" tabindex="-1">
-                <div class="modal-dialog">
-                    <form action="{{ route('admin.kategori-delete', $k->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <div class="modal-content">
-                            <div class="modal-header bg-danger text-white">
-                                <h5 class="modal-title">Hapus Kategori</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <!-- 🟡 Modal Edit -->
+                <div class="modal fade" id="editKategoriModal{{ $k->id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form action="{{ route('admin.kategori-update', $k->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Kategori</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" name="nama_kategori" class="form-control"
+                                        value="{{ $k->nama_kategori }}" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button class="btn btn-primary" type="submit">Simpan</button>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                Yakin ingin menghapus <b>{{ $k->nama_kategori }}</b>?
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                <button class="btn btn-danger" type="submit">Hapus</button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            @endforeach
-        </tbody>
-    </table>
+
+                <!-- 🔴 Modal Hapus -->
+                <div class="modal fade" id="deleteKategoriModal{{ $k->id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form action="{{ route('admin.kategori-delete', $k->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title">Hapus Kategori</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Yakin ingin menghapus <b>{{ $k->nama_kategori }}</b>?
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button class="btn btn-danger" type="submit">Hapus</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- 🟢 Modal Tambah Kategori -->

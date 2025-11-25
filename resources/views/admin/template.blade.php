@@ -18,13 +18,11 @@
             background-color: #F4F6F6;
             color: #333;
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: row;
-
         }
 
-        /* === SIDEBAR === */
         .sidebar {
             width: 250px;
             background-color: #2E7D32;
@@ -33,7 +31,10 @@
             display: block;
             flex-direction: column;
             padding: 1rem;
-            position: fixed
+            position: fixed;
+            z-index: 1000;
+            transition: left 0.3s;
+            left: 0;
         }
 
         .sidebar h4 {
@@ -66,16 +67,15 @@
             font-size: 1rem;
         }
 
-        /* === MAIN WRAPPER === */
         .main-wrapper {
             flex: 1;
             margin-left:250px;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: margin-left 0.3s;
         }
 
-        /* === TOPBAR === */
         .topbar {
             background-color: #fff;
             box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
@@ -113,13 +113,11 @@
             height: 40px;
         }
 
-        /* === CONTENT === */
         .content {
             flex: 1;
             padding: 25px;
         }
 
-        /* Button custom */
         .btn-primary {
             background-color: #FF9800;
             border: none;
@@ -128,12 +126,77 @@
         .btn-primary:hover {
             background-color: #FB8C00;
         }
+
+        /* Responsive Styles */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                left: -250px;
+                position: fixed;
+                top: 0;
+                height: 100vh;
+            }
+            .sidebar.active {
+                left: 0;
+            }
+            .main-wrapper {
+                margin-left: 0;
+            }
+            .topbar {
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 220px;
+                padding: 0.7rem;
+            }
+            .content {
+                padding: 15px;
+            }
+            .topbar .search-box input {
+                width: 100px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .sidebar {
+                width: 180px;
+                padding: 0.5rem;
+            }
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .topbar .search-box input {
+                width: 70px;
+            }
+        }
+
+        /* Hamburger button */
+        .sidebar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #2E7D32;
+            margin-right: 1rem;
+        }
+        @media (max-width: 991.98px) {
+            .sidebar-toggle {
+                display: block;
+            }
+        }
     </style>
 </head>
 
 <body>
     {{-- SIDEBAR --}}
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
         <h4 class="text-white text-center mb-4">
             <i class="fa-solid fa-store me-2"></i> Marketplace
         </h4>
@@ -158,6 +221,12 @@
                 </a>
             </li>
             <li class="mb-1">
+                <a href="{{ route('admin.produk.gambar') }}" class="nav-link {{ request()->routeIs('admin.produk.gambar') ? 'active' : '' }}">
+                    <i class="fa-solid fa-image"></i>
+                    <span>Gambar Produk</span>
+                </a>
+            </li>
+            <li class="mb-1">
                 <a href="{{ route('admin.kategori') }}" class="nav-link {{ request()->routeIs('admin.kategori') ? 'active' : '' }}">
                     <i class="fa-solid fa-tags"></i>
                     <span>Kategori</span>
@@ -169,18 +238,33 @@
                     <span>Toko</span>
                 </a>
             </li>
+            <li class="mb-1">
+                <a href="{{ route('logout') }}" class="nav-link {{ request()->routeIs('logout') ? 'active' : '' }}">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
         </ul>
     </nav>
 
     {{-- MAIN WRAPPER --}}
     <div class="main-wrapper">
-
         {{-- TOPBAR --}}
         <nav class="topbar">
-            <div class="search-box">
-                <i class="fas fa-search text-muted"></i>
-                <input type="text" placeholder="Search for...">
-            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+             <form action="{{ route('admin.cari') }}" method="GET" class="flex-grow-1 me-3 search-box">
+                <div class="input-group">
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Cari di Tokosekolah..."
+                        required
+                    >
+                </div>
+            </form>
             <div class="user-info">
                 <span class="text-muted small"></span>
                 <i class="fa-solid fa-circle-user"></i>
@@ -194,5 +278,23 @@
     </div>
 
     <script src="{{ asset('bootstrap1/js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        // Sidebar toggle for mobile/tablet
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        });
+
+        // Optional: close sidebar when clicking outside (mobile)
+        document.addEventListener('click', function(e) {
+            var sidebar = document.getElementById('sidebar');
+            var toggle = document.getElementById('sidebarToggle');
+            if (window.innerWidth <= 991.98 && sidebar.classList.contains('active')) {
+                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

@@ -20,4 +20,8 @@ class produk extends Model
     {
         return $this->hasMany(gambar_produk::class,'id_produk');
     }
+    public function reviews()
+    {
+        return $this->hasMany(reviews::class, 'produk_id');
+    }
 }
