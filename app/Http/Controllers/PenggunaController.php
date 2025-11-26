@@ -48,7 +48,7 @@ class PenggunaController extends Controller
 
         return view('pengguna.detail-produk', compact('produk'));
     }
-    public function search(Request $request)
+    public function cari(Request $request)
 {
    $q = $request->q;
 
@@ -58,12 +58,11 @@ class PenggunaController extends Controller
         ->orWhereHas('kategori', function ($kat) use ($q) {
             $kat->where('nama_kategori', 'like', "%$q%");
         })
-        ->orWhereHas('toko', function ($t) use ($q) {
-            $t->where('nama_toko', 'like', "%$q%");
-        })
+        ->get();
+    $toko = toko::where('nama_toko','like',"%$q%")
         ->get();
 
-    return view('pengguna.search', compact('produk', 'q'));
+    return view('pengguna.search', compact('produk', 'q','toko'));
 }
 
 }

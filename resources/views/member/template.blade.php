@@ -161,14 +161,6 @@
     {{-- MAIN WRAPPER --}}
     <div class="main-wrapper">
 
-        {{-- TOPBAR --}}
-        <nav class="topbar">
-            <button class="btn menu-btn" onclick="toggleSidebar()">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            <i class="fa-solid fa-circle-user fa-2x"></i>
-        </nav>
-
         {{-- CONTENT --}}
         <div class="content">
             @yield('content')
@@ -181,6 +173,6 @@
             document.getElementById('sidebarMenu').classList.toggle('active');
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="{{ asset('bootstrap1/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

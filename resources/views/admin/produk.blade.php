@@ -43,12 +43,17 @@
                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProduk{{ $p->id }}">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <form action="{{ route('admin.produk-delete', $p->id) }}" method="POST" class="d-inline">
+
+                            {{-- <form action="{{ route('admin.produk-delete', $p->id) }}" method="POST" class="d-inline">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus produk ini?')">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                            </form>
+                            </form> --}}
+
+                            <a href="{{ route('admin.produk-delete', $p->id) }}" onclick="return confirm('Yakin hapus produk ini?')" class="btn btn-sm btn-danger">
+                                 <i class="fa fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
 

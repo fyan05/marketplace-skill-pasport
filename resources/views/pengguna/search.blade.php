@@ -127,7 +127,25 @@
     @empty
 
     <div class="text-center text-muted py-3">
-        Tidak ada hasil ditemukan.
+        Tidak ada produk ditemukan.
+    </div>
+
+    @endforelse
+
+    @forelse($toko as $t)
+    <a href="{{ route('detail.toko', $t->id) }}" class="search-item">
+
+        <img src="{{ asset('storage/fototoko/' . $t->gambar) }}">
+
+        <div class="search-text">
+            <div class="search-title">{{ $t->nama_toko }}</div>
+        </div>
+
+    </a>
+    @empty
+
+    <div class="text-center text-muted py-3">
+        Tidak ada toko ditemukan.
     </div>
 
     @endforelse

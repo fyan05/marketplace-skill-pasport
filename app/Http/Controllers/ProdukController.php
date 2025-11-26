@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use function PHPUnit\Framework\fileExists;
+
 class ProdukController extends Controller
 {
     // 🟢 TAMPIL SEMUA PRODUK
@@ -107,16 +109,30 @@ class ProdukController extends Controller
     // 🔴 HAPUS PRODUK + SEMUA GAMBAR
     public function destroy($id)
     {
-        $produk = Produk::with('gambarProduks')->findOrFail($id);
 
-        foreach ($produk->gambarProduks as $g) {
-            Storage::disk('public')->delete($g->gambar);
-            $g->delete();
+        $produk = produk::find($id);
+
+        if ($produk->gambar && $produk->gambar->count()>0){
+            foreach($produk->gambar as $gambar){
+                $path = public_path('storage/product/' .$gambar->gambar);
+
+                if (fileExists($path)){
+                    unlink($path);
+                }
+
+                $gambar->delete();
+            }
+        }
+
+        if ($produk->reviews && $produk->reviews->count()>0){
+            foreach($produk->reviews as $v){
+                $v->delete();
+            }
         }
 
         $produk->delete();
 
-        return back()->with('success', 'Produk dan gambarnya berhasil dihapus!');
+        return back()->with('success','produk berhasil di hapus');
     }
 
     #member
@@ -219,19 +235,30 @@ class ProdukController extends Controller
     // 🔴 HAPUS PRODUK
     public function MemberHapus($id)
     {
-        $produk = Produk::with('gambarProduks')
-                    ->where('id', $id)
-                    ->where('id_toko', Auth::user()->toko->id)
-                    ->firstOrFail();
 
-        foreach ($produk->gambarProduks as $g) {
-            Storage::disk('public')->delete($g->gambar);
-            $g->delete();
+        $produk = produk::find($id);
+
+        if ($produk->gambar && $produk->gambar->count()>0){
+            foreach($produk->gambar as $gambar){
+                $path = public_path('storage/product/' .$gambar->gambar);
+
+                if (fileExists($path)){
+                    unlink($path);
+                }
+
+                $gambar->delete();
+            }
+        }
+
+        if ($produk->reviews && $produk->reviews->count()>0){
+            foreach($produk->reviews as $v){
+                $v->delete();
+            }
         }
 
         $produk->delete();
 
-        return back()->with('success', 'Produk berhasil dihapus!');
+        return back()->with('success','produk berhasil di hapus');
     }
     public function gambarIndex($id)
         {

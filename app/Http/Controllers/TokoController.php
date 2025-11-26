@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\gambar_produk;
+use App\Models\produk;
+use App\Models\reviews;
 use App\Models\Toko;
 use App\Models\toko as ModelsToko;
 use App\Models\User;
@@ -88,7 +91,14 @@ class TokoController extends Controller
     public function destroy($id)
     {
         // $id = Crypt::decrypt($id); // Dekripsi ID
+        reviews::whereHas('produk',function($uu) use ($id){
+            $uu->where('id_toko',$id);
+        })->delete();
+        gambar_produk::whereHas('produk',function($gambar) use($id){
+            $gambar->where('id_toko',$id);
+        })->delete();
         $toko = Toko::find($id);
+        $produk = produk::where('id_toko',$id)->delete();
         $toko->delete();
         return back()->with('success', 'Toko berhasil dihapus');
     }

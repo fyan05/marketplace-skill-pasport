@@ -19,12 +19,13 @@ Route::post('/login/post',[AdminController::class, 'Auth'])->name('login.auth');
 Route::get('/registrasi',[AdminController::class,'registrasi'])->name('registrasi');
 Route::post('/registrasi/post',[AdminController::class,'regis'])->name('registrasi.post');
 Route::post('/review/post{id}',[ReviewsController::class,'store'])->name('review.post');
+
 #pengguna
 Route::get('/',[PenggunaController::class,'index'])->name('pengguna.index');
 Route::get('/produk/',[PenggunaController::class,'produk'])->name('pengguna.produk');
 Route::get('/produk/detail/{id}',[PenggunaController::class,'detailproduk'])->name('produk.detail');
 Route::get('/toko/{id}',[PenggunaController::class,'toko'])->name('detail.toko');
-Route::get('/search', [PenggunaController::class, 'search'])->name('pengguna.search');
+Route::get('/cari',[PenggunaController::class, 'cari'])->name('cari');
 Route::get('/kategori/',[PenggunaController::class,'kategori'])->name('pengguna.kategori');
 
 
@@ -42,8 +43,8 @@ Route::middleware(['authmember'])->group(function (){
     Route::post('/member/toko/post',[TokoController::class, 'MemberTok'])->name('member.toko-post');
     Route::put('/member/toko/update/{id}',[TokoController::class, 'MemberUpd'])->name('member.toko-update');
     Route::get('/member/gambar',[MemberController::class, 'gambarProduk'])->name('member.gambar');
-    Route::post('/member/gambar-produk/update/{id}',[MemberController::class, 'update'])->name('member.gambar.update');
-    Route::delete('/member/gambar-produk/delete/{id}',[MemberController::class, 'delete'])->name('member.gambar.delete');
+    Route::post('/member/gambar/update/{id}',[MemberController::class, 'update'])->name('member.gambar.update');
+    Route::delete('/member/gambar/delete/{id}',[MemberController::class, 'delete'])->name('member.gambar.delete');
 });
 
 Route::middleware(['authadmin'])->group(function (){
@@ -67,7 +68,7 @@ Route::middleware(['authadmin'])->group(function (){
     Route::get('/admin/user/produk',[ProdukController::class,'index'])->name('admin.produk');
     Route::post('/admin/produk/store', [ProdukController::class, 'store'])->name('admin.produk-store');
     Route::put('/admin/produk/update/{id}', [ProdukController::class, 'update'])->name('admin.produk-update');
-    Route::delete('/admin/produk/delete/{id}', [ProdukController::class, 'destroy'])->name('admin.produk-delete');
+    Route::get('/admin/produk/delete/{id}', [ProdukController::class, 'destroy'])->name('admin.produk-delete');
 
     #toko
     Route::get('/admin/toko',[TokoController::class,'index'])->name('admin.toko');

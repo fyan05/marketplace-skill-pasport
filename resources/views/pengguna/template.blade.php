@@ -77,7 +77,7 @@
             </a>
 
             <!-- Search -->
-            <form action="{{ route('pengguna.search') }}" method="GET" class="flex-grow-1 me-3 search-box">
+            <form action="{{ route('cari') }}" method="GET" class="flex-grow-1 me-3 search-box">
                 <div class="input-group">
                     <input
                         type="text"
